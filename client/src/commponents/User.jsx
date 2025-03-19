@@ -4,10 +4,16 @@ import { Button } from 'primereact/button';
 import { DataScroller } from 'primereact/datascroller';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
+import UserUpdate from "./UserUpdate";
+
 
 const Users=()=>{
 
 const [user,setUser] = useState([])
+
+const [MyUpdatUser,SetMyUpdatUser]=useState([])
+
+const [UserUpdateState,setUserUpdateState] = useState(false)
 
 const getUser = async ()=> {
     const {data} = await Axios.get("http://localhost:1233/api/User")
@@ -18,6 +24,12 @@ const deleteUser = async (id)=> {
     const {data} = await Axios.delete(`http://localhost:1233/api/User/${id}`)
     getUser();
 }
+
+const updateUserEzer = (user)=>{
+    SetMyUpdatUser(user)
+    setUserUpdateState(true)
+}
+
 useEffect(()=>{
     getUser()
 },[])
@@ -54,7 +66,8 @@ const itemTemplate = (user) => {
                         </div>
                     </div>
                     <div className="flex flex-row lg:flex-column align-items-center lg:align-items-end gap-4 lg:gap-2">
-                        <Button icon="pi pi-trash" label="Delet" onClick={()=>{deleteUser(user._id)}} ></Button>
+                        <Button icon="pi pi-user-minus" label="Delet" onClick={()=>{deleteUser(user._id)}} ></Button>
+                        <Button icon="pi pi-user-edit" label="update"  onClick={()=>{ updateUserEzer(user)}}></Button>
                     </div>
                 </div>
             </div>
@@ -63,8 +76,15 @@ const itemTemplate = (user) => {
 };
 
 return (
+    
     <div className="card">
-        <DataScroller value={user} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" />
+          <div className="card flex justify-content-center">
+                    <Button label="Add User" onClick={()=>setUserUpdateState(true)} />
+                </div>
+        {
+         UserUpdateState?<UserUpdate setUserUpdateState={setUserUpdateState}  visible={UserUpdateState}  setUser={setUser} user={user} SetMyUpdatUser={SetMyUpdatUser} MyUpdatUser={MyUpdatUser}></UserUpdate>:
+    user.length>0?<DataScroller value={user} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" />:  <><h1>No Users!</h1></>
+        }
     </div>
 )
 }
