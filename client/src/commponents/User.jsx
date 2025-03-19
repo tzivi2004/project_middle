@@ -1,27 +1,32 @@
-import React, { useState, useEffect } from 'react';
- import { DataTable } from 'primereact/datatable';
- import { Column } from 'primereact/column';
- import { MultiSelect } from 'primereact/multiselect';
-// import { ProductService } from './service/ProductService';
+import { useState, useEffect } from "react"
+import Axios from "axios"
 
-const allUsers=()=>{
-    const columns = [
-        { field: 'id', header: 'Id' },
-        { field: 'name', header: 'Name' },
-        { field: 'username', header: 'Username' },
-        { field: 'email', header: 'Email' },
-        { field: 'address', header: 'Address' },
-        { field: 'phone', header: 'Phone' }
-    ];
+
+const Users=()=>{
+
+const [user,setUser] = useState([])
+
+const getUser = async ()=> {
+    const {data} = await Axios.get("http://localhost:1233/api/User")
+    setUser(data)
+}
+
+useEffect(()=>{
+    getUser()
+},[])
+
 return (
     <>
-
 <h1>User</h1>
-
-
-
+{
+  user.map((item)=>{
+return <div>
+    {item.name}
+</div>
+  })  
+}
     </>
 )
 }
 
-export default allUsers
+export default Users
