@@ -28,8 +28,8 @@ const getUserById = async (req,res)=>{
 }
 
 const updateUser = async (req,res)=>{
-    const {id, name, username, email, address, phone } = req.body
-    const updateUser = await User.findById(id).exec()
+    const {_id, name, username, email, address, phone } = req.body
+    const updateUser = await User.findById(_id).exec()
     if(!updateUser)
         return res.status(400).json({massage:"this User Not Found"})
     updateUser.name = name
