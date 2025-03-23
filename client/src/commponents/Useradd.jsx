@@ -13,18 +13,20 @@ import Axios from "axios"
 // import { CountryService } from '../service/CountryService';
 // import './flags.css';
 
-export const Useradd = ({visible,setUserUpdateState,setUser,user,SetMyUpdatUser,MyUpdatUser,getUser}) => {
+export const Useradd = ({ visible, setUserUpdateState, setUser, user, SetMyUpdatUser, MyUpdatUser, getUser }) => {
     const [countries, setCountries] = useState([]);
     const [showMessage, setShowMessage] = useState(false);
     const [formData, setFormData] = useState({});
+    const [un, setUn] = useState(false);
+
     // const countryservice = new CountryService();
 
     const defaultValues = {
-        name: '',
-        email: '',
-        username: '',
-        address:"", 
-        phone:""
+        name: MyUpdatUser.name,
+        email: MyUpdatUser.email,
+        username: MyUpdatUser.username,
+        address: MyUpdatUser.address,
+        phone: MyUpdatUser.phone
         // date: null,
         // country: null,
         // accept: false
@@ -36,32 +38,58 @@ export const Useradd = ({visible,setUserUpdateState,setUser,user,SetMyUpdatUser,
 
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
 
-    const addUser = async ()=>{
-         const {data} = await Axios.post("http://localhost:1233/api/User",formData)
-         setUser([...user,data])
-         setUserUpdateState(false)
+    const addUser = async (datas) => {
+
+        try {
+            const res = await Axios.post("http://localhost:1233/api/User", datas)
+
+            setUser([...user, res.data])
+            setUserUpdateState(false)
+        }
+        catch (ex) {
+
+        }
     }
 
-    const UpdateUser = async () =>{
-        
-        SetMyUpdatUser()
-        const {data} = await Axios.put("http://localhost:1233/api/User", MyUpdatUser)
-
+    const UpdateUser = async (datas) => {
+        datas._id = MyUpdatUser._id;
+        console.log(datas);
+        const { data } = await Axios.put("http://localhost:1233/api/User", datas)
+        getUser()
+        setUserUpdateState(false)
     }
 
     const onSubmit = (data) => {
-        setFormData(data); 
+        setFormData(data);
         reset();
+        if (MyUpdatUser.name) {
+            UpdateUser(data)
+        }
+        else {
+            addUser(data)
+
+        }
         // MyUpdatUser.name ? UpdateUser() :addUser()
-        addUser()
     };
 
     const getFormErrorMessage = (name) => {
         return errors[name] && <small className="p-error">{errors[name].message}</small>
     };
+    
+const isUnique = async (username) => {
+        const response = user.filter(e=>e.username==username);
+       if (response){
+        setUn(true)
+        return true
+       }
+        // Ensure your API returns a boolean indicating uniqueness
+   
+        return false; // or handle the error as needed
+    
+};
 
     // const dialogFooter = <div className="flex justify-content-center"><Button label="OK" className="p-button-text" autoFocus onClick={() => setShowMessage(false)} /></div>;
-    // // const passwordHeader = <h6>Pick a password</h6>;
+    //  const passwordHeader = <h6>Pick a password</h6>;
     // const passwordFooter = (
     //     <React.Fragment>
     //         <Divider />
@@ -97,59 +125,75 @@ export const Useradd = ({visible,setUserUpdateState,setUser,user,SetMyUpdatUser,
                                 <Controller name="name" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
                                     <InputText id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.invalid })} />
                                 )} />
-                                <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>{MyUpdatUser.name?MyUpdatUser.name :"Name*"}</label>
+                                <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>{MyUpdatUser.name ? MyUpdatUser.name : "Name*"}</label>
                             </span>
                             {getFormErrorMessage('name')}
                         </div>
 
                         {/* username */}
+
+                        {/* <Controller name="password" control={control} rules={{ required: 'Password is required.' }} render={({ field, fieldState }) => (
+                                    <Password id={field.name} {...field} toggleMask className={classNames({ 'p-invalid': fieldState.invalid })} header={passwordHeader} footer={passwordFooter} />
+                                )} /> */}
+
                         <div className="field">
                             <span className="p-float-label">
-                                <Controller name="username" control={control} rules={{ required: 'Password is required.' }} render={({ field, fieldState }) => (
-                                    <Password id={field.name} toggleMask className={classNames({ 'p-invalid': fieldState. })} />
+                                <Controller name="username" control={control} rules={{
+                                    required: 'username is required.',
+                                    validate: {
+                                        isUnique: async (value) => {
+                                            const unique = await isUnique(value);
+                                            return unique || 'Username is already taken.';
+                                        }
+                                    }
+                                }} render={({ field, fieldState }) => (
+                                    // <Password id={field.name}  toggleMask className={classNames({ 'p-invalid': fieldState.invalid })} />
+                                    <InputText id={field.username} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.invalid })} />
+
                                 )} />
-                                <label htmlFor="username" className={classNames({ 'p-error': errors.username })}>{MyUpdatUser.username?MyUpdatUser.username :"UserName*"}</label>
+                                <label htmlFor="username" className={classNames({ 'p-error': errors.username })}>{MyUpdatUser.username ? MyUpdatUser.username : "UserName*"}</label>
                             </span>
                             {getFormErrorMessage('username')}
+                              {un&&<div style={{color:"red"}}>not valid username</div>}  
                         </div>
-
-                        {/* email */}
-                        <div className="field">
-                            <span className="p-float-label p-input-icon-right">
-                                {/* <i className="pi pi-envelope" /> */}
-                                <Controller name="email" control={control}
-                                    rules={{ required: 'Email is required.', pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: 'Invalid email address. E.g. example@email.com' }}}
-                                    render={({ field, fieldState }) => (
-                                        <InputText id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
-                                <label htmlFor="email" className={classNames({ 'p-error': !!errors.email })}>{MyUpdatUser.Email?MyUpdatUser.Email :"Email*"}</label>
-                            </span>
-                            {getFormErrorMessage('email')}
-                        </div>
-
-                         {/* //address */}                  
+                        {/* //address */}
                         <div className="field">
                             <span className="p-float-label">
                                 <Controller name="address" control={control} render={({ field, fieldState }) => (
                                     <InputText id={field.address} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.invalid })} />
                                 )} />
-                                <label htmlFor="address" >{MyUpdatUser.address?MyUpdatUser.address :"Address"}</label>
+                                <label htmlFor="address" >{MyUpdatUser.address ? MyUpdatUser.address : "Address"}</label>
                             </span>
                             {getFormErrorMessage('address')}
                         </div>
+                        {/* email */}
+                        <div className="field">
+                            <span className="p-float-label p-input-icon-right">
+                                {/* <i className="pi pi-envelope" /> */}
+                                <Controller name="email" control={control}
+                                    rules={{ pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: 'Invalid email address. E.g. example@email.com' } }}
+                                    render={({ field, fieldState }) => (
+                                        <InputText id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
+                                    )} />
+                                <label htmlFor="email" className={classNames({ 'p-error': !!errors.email })}>{MyUpdatUser.Email ? MyUpdatUser.Email : "Email"}</label>
+                            </span>
+                            {getFormErrorMessage('email')}
+                        </div>
 
-                          {/* //phone */}                  
-                          <div className="field">
+
+
+                        {/* //phone */}
+                        <div className="field">
                             <span className="p-float-label">
                                 <Controller name="phone" control={control} render={({ field, fieldState }) => (
                                     <InputText id={field.address} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.invalid })} />
                                 )} />
-                                <label htmlFor="phone" >{MyUpdatUser.phone?MyUpdatUser.phone :"phone"}</label>
+                                <label htmlFor="phone" >{MyUpdatUser.phone ? MyUpdatUser.phone : "phone"}</label>
                             </span>
                             {getFormErrorMessage('phone')}
                         </div>
 
-                        <Button type="submit" label={MyUpdatUser.name?"Update User":"Add User"} className="mt-2" />
+                        <Button type="submit" label={MyUpdatUser.name ? "Update User" : "Add User"} className="mt-2" />
                     </form>
                 </div>
             </div>

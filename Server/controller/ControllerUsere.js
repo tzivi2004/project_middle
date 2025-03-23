@@ -3,11 +3,14 @@ const User = require("../models/Users")
 
 const creatNewUser = async (req, res) => {
     const { name, username, email, address, phone } = req.body
-    // const usernameexsist = await User.findOne(username)
-    // if(usernameexsist)
-    //     return res.status(400).json({massage:"this username is esisit"})
+    
     if (!name || !username)
-        return res.status(400).json({ massage: "name & username are required" })
+        return res.status(404).json({ massage: "name & username are required" })
+     const usernameexsist = await User.findOne({username})
+     if(usernameexsist){      
+        console.log("duplicate");
+         return res.status(409).json({massage:"this username is esisit"})
+    }
     const user = await User.create({ name, username, email, address, phone })
     res.json(user)
 }
