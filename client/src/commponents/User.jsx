@@ -4,7 +4,6 @@ import { Button } from 'primereact/button';
 import { DataScroller } from 'primereact/datascroller';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
-import UserUpdate from "./UserUpdate";
 import Useradd from "./Useradd";
 
 
@@ -17,8 +16,13 @@ const [MyUpdatUser,SetMyUpdatUser]=useState([])
 const [UserUpdateState,setUserUpdateState] = useState(false)
 
 const getUser = async ()=> {
+    try{
     const {data} = await Axios.get("http://localhost:1233/api/User")
     setUser(data)
+}
+    catch(ex){
+        <Button label="Add User" onClick={()=>addUserEzer()} />
+    }
 }
 
 const deleteUser = async (id)=> {
@@ -50,7 +54,7 @@ const itemTemplate = (user) => {
                     <div className="flex flex-column align-items-center lg:align-items-start gap-3">
                         <div className="flex flex-column gap-1">
                             <div className="text-2xl font-bold text-900">{user.name}</div>
-                            <div className="text-700">{user._id}</div>
+                            <div className="text-700">{user.username}</div>
                         </div>
                         <div className="flex flex-column gap-2">
                             <span className="flex align-items-center gap-2">
@@ -87,12 +91,13 @@ return (
           {/* <div className="card flex justify-content-center"> <Button label="Add User" onClick={()=>addUserEzer()} /></div> */}
         {
          UserUpdateState?<Useradd setUserUpdateState={setUserUpdateState}  visible={UserUpdateState}  setUser={setUser} user={user} SetMyUpdatUser={SetMyUpdatUser} MyUpdatUser={MyUpdatUser} getUser={getUser}></Useradd>:
-    user.length===0?<><h1>No Users!</h1></>:<><div className="card flex justify-content-center"> <Button label="Add User" onClick={()=>addUserEzer()} /></div><DataScroller value={user} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" /> </>  
+    <><div className="card flex justify-content-center"> <Button label="Add User" onClick={()=>addUserEzer()} /></div><DataScroller value={user} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" /> </>  
         }
     </div>
     </>
     
 )
 }
+
 
 export default Users

@@ -5,7 +5,6 @@ import Home from './commponents/Home'
 import User from './commponents/User'
 import Post from './commponents/Post';
 import Todo from './commponents/Todo';
-import UserUpdate from './commponents/UserUpdate';
 
 function App() {
   return ( <>

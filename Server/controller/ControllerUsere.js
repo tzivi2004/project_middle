@@ -35,6 +35,15 @@ const updateUser = async (req,res)=>{
     const updateUser = await User.findById(_id).exec()
     if(!updateUser)
         return res.status(400).json({massage:"this User Not Found"})
+        const tempUser= await User.findOne({username})
+        if(tempUser)
+            {
+                console.log("dddddd");
+
+                if(tempUser.id!=updateUser.id){
+                    console.log(tempUser,updateUser);
+                    return res.status(409).json({massage:"this Username is exist"})}
+            }
     updateUser.name = name
     updateUser.username = username
     updateUser.email = email

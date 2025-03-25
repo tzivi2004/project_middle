@@ -25,8 +25,9 @@ const getTodosById = async (req, res) => {
 }
 
 const updateTodos = async (req, res) => {
-    const { id, title, tags, completed } = req.body
-    const updateTodos = await Todos.findById(id).exec()
+    const { _id, title, tags, completed } = req.body
+    
+    const updateTodos = await Todos.findById(_id).exec()
     if (!updateTodos)
         return res.status(400).json({ massage: "this Todos Not Found!" })
     updateTodos.title = title
@@ -38,7 +39,6 @@ const updateTodos = async (req, res) => {
 }
 
 const deletTodos = async (req,res)=>{
-    const {id} = req.params
     const myTodos = await Todos.findById(id).exec()
     if(!myTodos)
         return res.status(400).json({massage:"this Todos Not Found!"})
