@@ -2,8 +2,6 @@ import { useState, useEffect } from "react"
 import Axios from "axios"
 import { Button } from 'primereact/button';
 import { DataScroller } from 'primereact/datascroller';
-import { Rating } from 'primereact/rating';
-import { Tag } from 'primereact/tag';
 import Useradd from "./Useradd";
 
 
@@ -88,7 +86,6 @@ const itemTemplate = (user) => {
 return (
     <>
     <div className="card">
-          {/* <div className="card flex justify-content-center"> <Button label="Add User" onClick={()=>addUserEzer()} /></div> */}
         {
          UserUpdateState?<Useradd setUserUpdateState={setUserUpdateState}  visible={UserUpdateState}  setUser={setUser} user={user} SetMyUpdatUser={SetMyUpdatUser} MyUpdatUser={MyUpdatUser} getUser={getUser}></Useradd>:
     <><div className="card flex justify-content-center"> <Button icon="pi pi-user-plus" label="Add User" onClick={()=>addUserEzer()} /></div><DataScroller value={user} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" /> </>  

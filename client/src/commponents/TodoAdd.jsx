@@ -2,16 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
-import { Password } from 'primereact/password';
-import { Checkbox } from 'primereact/checkbox';
-import { Dialog } from 'primereact/dialog';
-import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
 import Axios from "axios"
 
-
+// קומפוננטה זאת מעדכנת וגם מוסיפה!
 const TodoAdd = ({ visible, setTodoUpdateState, setTodo, Todo, SetMyUpdatTodo, MyUpdatTodo, getTodo }) => {
     const [countries, setCountries] = useState([]);
     const [showMessage, setShowMessage] = useState(false);

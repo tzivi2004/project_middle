@@ -18,10 +18,6 @@ const Todo = () => {
 
     const [TodoUpdateState, setTodoUpdateState] = useState(false)
 
-    // const [nodes, setNodes] = useState([]);
-
-    // const [selectedKeys, setSelectedKeys] = useState(null);
-
     const [value, setValue] = useState('Complited?');
 
 
@@ -81,9 +77,6 @@ const Todo = () => {
                                 <br></br>
                                 <div className="text-700">{Todo.tags.join(" , ")}</div>
                                 <div className="text-700">{Todo.completed===true?"true":"false"}</div>
-                                {/* <div className="card flex justify-content-center">
-            <Tree value={Todo} selectionMode="checkbox" selectionKeys={selectedKeys} onSelectionChange={(e) => setSelectedKeys(e.value)} className="w-full md:w-30rem" />
-        </div> */}
 
                             </div>
                         </div>
@@ -104,7 +97,6 @@ const Todo = () => {
     return (
         <>
             <div className="card">
-                {/* <div className="card flex justify-content-center"> <Button label="Add User" onClick={()=>addUserEzer()} /></div> */}
                 {
                     TodoUpdateState ? <TodoAdd setTodoUpdateState={setTodoUpdateState} visible={TodoUpdateState} setTodo={setTodo} Todo={Todo} SetMyUpdatTodo={SetMyUpdatTodo} MyUpdatTodo={MyUpdatTodo} getTodo={getTodo}></TodoAdd> :
                         <><div className="card flex justify-content-center"> <Button icon="pi pi-plus" label="Add Todo" onClick={() => addTodoEzer()} /></div><DataScroller value={Todo} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" /> </>

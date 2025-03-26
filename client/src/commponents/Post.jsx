@@ -55,7 +55,6 @@ const itemTemplate = (Post) => {
                     <div className="flex flex-column align-items-center lg:align-items-start gap-3">
                         <div className="flex flex-column gap-1">
                             <div className="text-2xl font-bold text-900">{Post.title}</div>
-                            {/* <div className="text-700">{Post.title}</div> */}
                         </div>
                         <div className="flex flex-column gap-2">
                             <span className="flex align-items-center gap-2">
@@ -77,7 +76,6 @@ const itemTemplate = (Post) => {
 return (
     <>
     <div className="card">
-          {/* <div className="card flex justify-content-center"> <Button label="Add User" onClick={()=>addUserEzer()} /></div> */}
         {
          PostUpdateState?<Postadd setPostUpdateState={setPostUpdateState}  visible={PostUpdateState}  setPost={setPost} Post={Post} SetMyUpdatPost={SetMyUpdatPost} MyUpdatPost={MyUpdatPost} getPost={getPost}></Postadd>:
     <><div className="card flex justify-content-center"> <Button icon="pi pi-file-plus" label="Add Post" onClick={()=>addPostEzer()} /></div><DataScroller value={Post} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" /> </>  
