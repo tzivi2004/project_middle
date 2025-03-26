@@ -30,7 +30,8 @@ const TodoAdd = ({ visible, setTodoUpdateState, setTodo, Todo, SetMyUpdatTodo, M
         try {
             const res = await Axios.post("http://localhost:1233/api/Todo", datas)
 
-            setTodo([...Todo, res.data])
+            // setTodo([...Todo, res.data])
+            getTodo()
             setTodoUpdateState(false)
         }
         catch (ex) {

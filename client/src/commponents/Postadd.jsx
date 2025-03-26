@@ -29,7 +29,8 @@ const Postadd=({ visible, setPostUpdateState, setPost, Post, SetMyUpdatPost, MyU
         try {
             const res = await Axios.post("http://localhost:1233/api/Post", datas)
 
-            setPost([...Post, res.data])
+            // setPost([...Post, res.data])בגלל ה sort!!!
+            getPost()
             setPostUpdateState(false)
         }
         catch (ex) {

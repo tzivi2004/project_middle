@@ -16,7 +16,7 @@ const creatNewUser = async (req, res) => {
 }
 
 const getAllUsers = async (req, res) => {
-    const users = await User.find().lean()
+    const users = await User.find().lean().sort({name:1})
     if(!users?.length)
         return res.status(400).json({massage:"No Users Found"})
     res.json(users)

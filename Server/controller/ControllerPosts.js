@@ -10,7 +10,7 @@ const createPost = async (req, res) => {
 }
 
 const getAllPost = async (req, res) => {
-    const posts = await Post.find().lean()
+    const posts = await Post.find().lean().sort({title:1})
     if (!posts?.length)
         return res.status(400).json({ massage: "No Posts Found!" })
     res.json(posts)

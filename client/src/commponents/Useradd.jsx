@@ -38,7 +38,8 @@ export const Useradd = ({ visible, setUserUpdateState, setUser, user, SetMyUpdat
         try {
             const res = await Axios.post("http://localhost:1233/api/User", datas)
 
-            setUser([...user, res.data])
+            // setUser([...user, res.data])
+            getUser()
             setUserUpdateState(false)
         }
         catch (ex) {

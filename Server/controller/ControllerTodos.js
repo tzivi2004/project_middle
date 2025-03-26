@@ -10,7 +10,7 @@ const createTodos = async (req, res) => {
 }
 
 const getAllTodos = async (req, res) => {
-    const todos = await Todos.find().lean()
+    const todos = await Todos.find().lean().sort({title:1})
     if (!todos?.length)
         return res.status(400).json({ massage: "No Todos Found!" })
     res.json(todos)
