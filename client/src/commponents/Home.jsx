@@ -23,7 +23,7 @@ const Home = () => {
     },
     {
         label: 'Post',
-        icon: 'pi pi-receipt',
+        icon: 'pi pi-file',
         command: () => {
           navigate('./post')
         }

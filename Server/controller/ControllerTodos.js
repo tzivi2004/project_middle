@@ -39,6 +39,7 @@ const updateTodos = async (req, res) => {
 }
 
 const deletTodos = async (req,res)=>{
+    const {id} = req.params
     const myTodos = await Todos.findById(id).exec()
     if(!myTodos)
         return res.status(400).json({massage:"this Todos Not Found!"})

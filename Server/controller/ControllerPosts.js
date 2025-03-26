@@ -13,7 +13,7 @@ const getAllPost = async (req, res) => {
     const posts = await Post.find().lean()
     if (!posts?.length)
         return res.status(400).json({ massage: "No Posts Found!" })
-    res, json(posts)
+    res.json(posts)
 }
 
 const getPostById = async (req, res) => {
@@ -25,8 +25,8 @@ const getPostById = async (req, res) => {
 }
 
 const updatePost = async (req, res) => {
-    const { id, title, body } = req.body
-    const updatePostById = await Post.findById(id).exec()
+    const { _id, title, body } = req.body
+    const updatePostById = await Post.findById(_id).exec()
     if (!updatePostById)
         return res.status(400).json({ massage: "This Post Not Found!" })
     updatePostById.title = title
@@ -36,14 +36,13 @@ const updatePost = async (req, res) => {
 }
 
 const deletPost = async (req, res) => {
-    const { id } = req.param
-    const myPost = await Post.findById(id).exec()
-    console.log("dsyhfd");
+    const {_id} = req.params
+    console.log(req.params);
+    const myPost = await Post.findById(_id).exec()
     if (!myPost)
-        return res.status(400).json({ massage: "This Post Not Found!" })
+        return res.status(409).json({ massage: "This Post Not Found!" })
     const deletPostById = await myPost.deleteOne()
     res.send(`The Post ${myPost.title} Is Deleted`)
-
 }
 
 module.exports = { createPost, getAllPost, getPostById, updatePost, deletPost }

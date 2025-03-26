@@ -37,7 +37,7 @@ const Todo = () => {
 
         }
         catch (ex) {
-            <Button label="Add Todo" onClick={() => addTodoEzer()} />
+            <Button icon="pi pi-plus" label="Add Todo" onClick={() => addTodoEzer()} />
         }
     }
 
@@ -62,9 +62,6 @@ const Todo = () => {
         
         const { data } = await Axios.put("http://localhost:1233/api/Todo", {_id:Todo._id,title:Todo.title,tags:Todo.tags,completed:Todo.completed?false:true})  
         getTodo()
-        // if(Todo.completed)
-            // e.value='Complited!!'
-        // setValue(e.value)
     }
 
     useEffect(() => {
@@ -91,8 +88,8 @@ const Todo = () => {
                             </div>
                         </div>
                         <div className="flex flex-row lg:flex-column align-items-center lg:align-items-end gap-4 lg:gap-2">
-                            <Button icon="pi pi-user-minus" label="Delet" onClick={() => { deleteTodo(Todo._id) }} ></Button>
-                            <Button icon="pi pi-user-edit" label="update" onClick={() => { updateTodoEzer(Todo) }}></Button>                
+                            <Button icon="pi pi-times" label="Delet" onClick={() => { deleteTodo(Todo._id) }} ></Button>
+                            <Button icon="pi pi-pencil" label="update" onClick={() => { updateTodoEzer(Todo) }}></Button>                
                             <div className="card flex flex-column align-items-center gap-3">
                                 <MultiStateCheckbox value={Todo.completed?'Complited!!':'Complited?' } onChange={ (e) => {ChangCompleted(e,Todo)}} options={options} optionValue="value" />
                                 <span>{Todo.completed?'Complited!!':'Complited?' }</span>
@@ -110,7 +107,7 @@ const Todo = () => {
                 {/* <div className="card flex justify-content-center"> <Button label="Add User" onClick={()=>addUserEzer()} /></div> */}
                 {
                     TodoUpdateState ? <TodoAdd setTodoUpdateState={setTodoUpdateState} visible={TodoUpdateState} setTodo={setTodo} Todo={Todo} SetMyUpdatTodo={SetMyUpdatTodo} MyUpdatTodo={MyUpdatTodo} getTodo={getTodo}></TodoAdd> :
-                        <><div className="card flex justify-content-center"> <Button label="Add Todo" onClick={() => addTodoEzer()} /></div><DataScroller value={Todo} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" /> </>
+                        <><div className="card flex justify-content-center"> <Button icon="pi pi-plus" label="Add Todo" onClick={() => addTodoEzer()} /></div><DataScroller value={Todo} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" /> </>
                 }
             </div>
         </>

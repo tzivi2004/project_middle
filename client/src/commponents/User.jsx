@@ -21,7 +21,7 @@ const getUser = async ()=> {
     setUser(data)
 }
     catch(ex){
-        <Button label="Add User" onClick={()=>addUserEzer()} />
+        <Button icon="pi pi-user-plus" label="Add User" onClick={()=>addUserEzer()} />
     }
 }
 
@@ -91,7 +91,7 @@ return (
           {/* <div className="card flex justify-content-center"> <Button label="Add User" onClick={()=>addUserEzer()} /></div> */}
         {
          UserUpdateState?<Useradd setUserUpdateState={setUserUpdateState}  visible={UserUpdateState}  setUser={setUser} user={user} SetMyUpdatUser={SetMyUpdatUser} MyUpdatUser={MyUpdatUser} getUser={getUser}></Useradd>:
-    <><div className="card flex justify-content-center"> <Button label="Add User" onClick={()=>addUserEzer()} /></div><DataScroller value={user} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" /> </>  
+    <><div className="card flex justify-content-center"> <Button icon="pi pi-user-plus" label="Add User" onClick={()=>addUserEzer()} /></div><DataScroller value={user} itemTemplate={itemTemplate} rows={5} inline scrollHeight="500px" header="Scroll Down to Load More" /> </>  
         }
     </div>
     </>
